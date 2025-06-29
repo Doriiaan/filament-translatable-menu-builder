@@ -1,5 +1,9 @@
 # Filament Translatable Menu Builder
 
+This Filament package allows you to create and manage translatable menus in your Filament application.
+
+This package is a fork from [datlechin/filament-menu-builder](https://github.com/datlechin/filament-menu-builder) and integrates [Astrotomic/laravel-translatable](https://github.com/Astrotomic/laravel-translatable) for translations with [CactusGalaxy/FilamentAstrotomic](https://github.com/CactusGalaxy/FilamentAstrotomic) for translations tabs.
+
 ## Installation
 
 You can install the package via composer:
@@ -33,7 +37,7 @@ This is the contents of the published config file:
 return [
     'tables' => [
         'menus' => 'menus',
-        'menu_tarnslations' => 'menu_tarnslations',
+        'menu_tarnslations' => 'menu_translations',
         'menu_items' => 'menu_items',
     ],
 ];
@@ -48,6 +52,12 @@ $panel
     ...
     ->plugin(FilamentTranslatableMenuBuilderPlugin::make())
 ```
+
+## Usage
+
+If one day someone uses this package, I could fill in this section and make the package as customizable as: [datlechin/filament-menu-builder](https://github.com/datlechin/filament-menu-builder).
+
+Custom links don't work.
 
 ## License
 
