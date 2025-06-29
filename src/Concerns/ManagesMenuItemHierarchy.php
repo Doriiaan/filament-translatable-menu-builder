@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Datlechin\FilamentMenuBuilder\Concerns;
+namespace Doriiaan\FilamentTranslatableMenuBuilder\Concerns;
 
-use Datlechin\FilamentMenuBuilder\FilamentMenuBuilderPlugin;
-use Datlechin\FilamentMenuBuilder\Services\MenuItemService;
+use Doriiaan\FilamentTranslatableMenuBuilder\FilamentTranslatableMenuBuilderPlugin;
+use Doriiaan\FilamentTranslatableMenuBuilder\Services\MenuItemService;
 use Filament\Actions\Action;
 use Filament\Support\Enums\ActionSize;
 
@@ -36,7 +36,7 @@ trait ManagesMenuItemHierarchy
     public function indentAction(): Action
     {
         return Action::make('indent')
-            ->label(__('filament-menu-builder::menu-builder.actions.indent'))
+            ->label(__('filament-translatable-menu-builder::menu-builder.actions.indent'))
             ->icon('heroicon-o-arrow-right')
             ->color('gray')
             ->iconButton()
@@ -48,7 +48,7 @@ trait ManagesMenuItemHierarchy
     public function unindentAction(): Action
     {
         return Action::make('unindent')
-            ->label(__('filament-menu-builder::menu-builder.actions.unindent'))
+            ->label(__('filament-translatable-menu-builder::menu-builder.actions.unindent'))
             ->icon('heroicon-o-arrow-left')
             ->color('gray')
             ->iconButton()
@@ -59,13 +59,13 @@ trait ManagesMenuItemHierarchy
 
     protected function isIndentActionVisible(int $itemId): bool
     {
-        return FilamentMenuBuilderPlugin::get()->isIndentActionsEnabled() &&
+        return FilamentTranslatableMenuBuilderPlugin::get()->isIndentActionsEnabled() &&
                $this->canIndent($itemId);
     }
 
     protected function isUnindentActionVisible(int $itemId): bool
     {
-        return FilamentMenuBuilderPlugin::get()->isIndentActionsEnabled() &&
+        return FilamentTranslatableMenuBuilderPlugin::get()->isIndentActionsEnabled() &&
                $this->canUnindent($itemId);
     }
 

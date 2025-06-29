@@ -13,17 +13,8 @@ return [
         'name' => [
             'label' => 'Tên',
         ],
-        'locations' => [
-            'label' => 'Vị trí',
-            'empty' => 'Chưa gán',
-        ],
         'items' => [
             'label' => 'Mục',
-        ],
-        'is_visible' => [
-            'label' => 'Hiển thị',
-            'visible' => 'Hiển thị',
-            'hidden' => 'Ẩn',
         ],
     ],
     'actions' => [
@@ -32,23 +23,6 @@ return [
         ],
         'indent' => 'Thụt lề',
         'unindent' => 'Thụt lề ngược',
-        'locations' => [
-            'label' => 'Vị trí',
-            'heading' => 'Quản lý vị trí',
-            'description' => 'Chọn menu nào xuất hiện ở mỗi vị trí.',
-            'submit' => 'Cập nhật',
-            'form' => [
-                'location' => [
-                    'label' => 'Vị trí',
-                ],
-                'menu' => [
-                    'label' => 'Menu đã gán',
-                ],
-            ],
-            'empty' => [
-                'heading' => 'Không có vị trí nào được đăng ký',
-            ],
-        ],
     ],
     'items' => [
         'expand' => 'Mở rộng',
@@ -71,9 +45,6 @@ return [
     'notifications' => [
         'created' => [
             'title' => 'Liên kết đã được tạo',
-        ],
-        'locations' => [
-            'title' => 'Cập nhật vị trí menu',
         ],
     ],
     'panel' => [

@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Datlechin\FilamentMenuBuilder;
+namespace Doriiaan\FilamentTranslatableMenuBuilder;
 
 use Closure;
-use Datlechin\FilamentMenuBuilder\Contracts\MenuPanel;
-use Datlechin\FilamentMenuBuilder\Models\Menu;
-use Datlechin\FilamentMenuBuilder\Models\MenuItem;
-use Datlechin\FilamentMenuBuilder\Models\MenuLocation;
-use Datlechin\FilamentMenuBuilder\Resources\MenuResource;
+use Doriiaan\FilamentTranslatableMenuBuilder\Contracts\MenuPanel;
+use Doriiaan\FilamentTranslatableMenuBuilder\Models\Menu;
+use Doriiaan\FilamentTranslatableMenuBuilder\Models\MenuItem;
+use Doriiaan\FilamentTranslatableMenuBuilder\Models\MenuTranslation;
+use Doriiaan\FilamentTranslatableMenuBuilder\Resources\MenuResource;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Illuminate\Database\Eloquent\Model;
 
-class FilamentMenuBuilderPlugin implements Plugin
+class FilamentTranslatableMenuBuilderPlugin implements Plugin
 {
     use EvaluatesClosures;
 
@@ -23,11 +23,9 @@ class FilamentMenuBuilderPlugin implements Plugin
 
     protected string $menuModel = Menu::class;
 
+    protected string $menuTranslationModel = MenuTranslation::class;
+
     protected string $menuItemModel = MenuItem::class;
-
-    protected string $menuLocationModel = MenuLocation::class;
-
-    protected array $locations = [];
 
     protected array | Closure $menuFields = [];
 
@@ -93,32 +91,16 @@ class FilamentMenuBuilderPlugin implements Plugin
         return $this;
     }
 
+    public function usingMenuTranslationModel(string $model): static
+    {
+        $this->menuModel = $model;
+
+        return $this;
+    }
+
     public function usingMenuItemModel(string $model): static
     {
         $this->menuItemModel = $model;
-
-        return $this;
-    }
-
-    public function usingMenuLocationModel(string $model): static
-    {
-        $this->menuLocationModel = $model;
-
-        return $this;
-    }
-
-    public function addLocation(string $key, string $label): static
-    {
-        $this->locations[$key] = $label;
-
-        return $this;
-    }
-
-    public function addLocations(array $locations): static
-    {
-        foreach ($locations as $key => $label) {
-            $this->addLocation($key, $label);
-        }
 
         return $this;
     }
@@ -232,9 +214,9 @@ class FilamentMenuBuilderPlugin implements Plugin
      *
      * @return class-string<TModel>
      */
-    public function getMenuItemModel(): string
+    public function getMenuTranslationModel(): string
     {
-        return $this->menuItemModel;
+        return $this->menuTranslationModel;
     }
 
     /**
@@ -242,9 +224,9 @@ class FilamentMenuBuilderPlugin implements Plugin
      *
      * @return class-string<TModel>
      */
-    public function getMenuLocationModel(): string
+    public function getMenuItemModel(): string
     {
-        return $this->menuLocationModel;
+        return $this->menuItemModel;
     }
 
     /**
@@ -271,12 +253,7 @@ class FilamentMenuBuilderPlugin implements Plugin
     {
         return $this->enableIndentActions;
     }
-
-    public function getLocations(): array
-    {
-        return $this->locations;
-    }
-
+    
     public function getMenuFields(): array | Closure
     {
         return $this->menuFields;

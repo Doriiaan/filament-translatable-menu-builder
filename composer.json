@@ -1,26 +1,18 @@
 {
-    "name": "datlechin/filament-menu-builder",
-    "description": "Create and manage menus and menu items",
-    "keywords": [
-        "datlechin",
-        "laravel",
-        "filament-menu-builder"
-    ],
-    "homepage": "https://github.com/datlechin/filament-menu-builder",
-    "support": {
-        "issues": "https://github.com/datlechin/filament-menu-builder/issues",
-        "source": "https://github.com/datlechin/filament-menu-builder"
-    },
+    "name": "doriiaan/filament-translatable-menu-builder",
+    "description": "Create and manage translatable menus and menu items. Fork of datlechin/filament-menu-builder.",
     "license": "MIT",
+    "version": "1.0.0",
     "authors": [
         {
-            "name": "Ngo Quoc Dat",
-            "email": "datlechin@gmail.com",
-            "role": "Developer"
+            "name": "Dorian"
         }
     ],
-    "require": {
+    "minimum-stability": "stable",
+        "require": {
         "php": "^8.1",
+        "astrotomic/laravel-translatable": "^11.16",
+        "cactus-galaxy/filament-astrotomic": "^0.4.0",
         "filament/filament": "^3.0",
         "spatie/laravel-package-tools": "^1.15.0"
     },
@@ -34,13 +26,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Datlechin\\FilamentMenuBuilder\\": "src/",
-            "Datlechin\\FilamentMenuBuilder\\Database\\Factories\\": "database/factories/"
+            "Doriiaan\\FilamentTranslatableMenuBuilder\\": "src/",
+            "Doriiaan\\FilamentTranslatableMenuBuilder\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Datlechin\\FilamentMenuBuilder\\Tests\\": "tests/"
+            "Doriiaan\\FilamentTranslatableMenuBuilder\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -59,13 +51,11 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Datlechin\\FilamentMenuBuilder\\FilamentMenuBuilderServiceProvider"
+                "Doriiaan\\FilamentTranslatableMenuBuilder\\FilamentTranslatableMenuBuilderServiceProvider"
             ],
             "aliases": {
-                "FilamentMenuBuilder": "Datlechin\\FilamentMenuBuilder\\Facades\\FilamentMenuBuilder"
+                "FilamentTranslatableMenuBuilder": "Doriiaan\\FilamentTranslatableMenuBuilder\\Facades\\FilamentTranslatableMenuBuilder"
             }
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }

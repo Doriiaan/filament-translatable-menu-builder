@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Datlechin\FilamentMenuBuilder\Livewire;
+namespace Doriiaan\FilamentTranslatableMenuBuilder\Livewire;
 
-use Datlechin\FilamentMenuBuilder\Contracts\MenuPanel as ContractsMenuPanel;
-use Datlechin\FilamentMenuBuilder\Models\Menu;
+use Doriiaan\FilamentTranslatableMenuBuilder\Contracts\MenuPanel as ContractsMenuPanel;
+use Doriiaan\FilamentTranslatableMenuBuilder\Models\Menu;
 use Filament\Forms\Components;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -20,6 +20,8 @@ class MenuPanel extends Component implements HasForms
     use InteractsWithForms;
 
     public Menu $menu;
+
+    public string $locale;
 
     public string $id;
 
@@ -44,8 +46,9 @@ class MenuPanel extends Component implements HasForms
     #[Validate('required|array')]
     public array $data = [];
 
-    public function mount(ContractsMenuPanel $menuPanel): void
+    public function mount(ContractsMenuPanel $menuPanel, $locale): void
     {
+        $this->locale = $locale;
         $this->id = $menuPanel->getIdentifier();
         $this->name = $menuPanel->getName();
         $this->description = $menuPanel->getDescription();
@@ -74,7 +77,7 @@ class MenuPanel extends Component implements HasForms
     {
         $this->validate();
 
-        $order = $this->menu->menuItems->max('order') ?? 0;
+        $order = $this->menu->translate($this->locale)->menuItems->max('order') ?? 0;
 
         $selectedItems = collect($this->items)
             ->filter(fn ($item) => in_array($item['linkable_id'] ?? $item['title'], $this->data))
@@ -89,13 +92,13 @@ class MenuPanel extends Component implements HasForms
             return;
         }
 
-        $this->menu->menuItems()->createMany($selectedItems);
+        $this->menu->translate($this->locale)->menuItems()->createMany($selectedItems);
 
         $this->reset('data');
         $this->dispatch('menu:created');
 
         Notification::make()
-            ->title(__('filament-menu-builder::menu-builder.notifications.created.title'))
+            ->title(__('filament-translatable-menu-builder::menu-builder.notifications.created.title'))
             ->success()
             ->send();
     }
@@ -108,8 +111,8 @@ class MenuPanel extends Component implements HasForms
             ->schema([
                 Components\View::make('filament-tables::components.empty-state.index')
                     ->viewData([
-                        'heading' => __('filament-menu-builder::menu-builder.panel.empty.heading'),
-                        'description' => __('filament-menu-builder::menu-builder.panel.empty.description'),
+                        'heading' => __('filament-translatable-menu-builder::menu-builder.panel.empty.heading'),
+                        'description' => __('filament-translatable-menu-builder::menu-builder.panel.empty.description'),
                         'icon' => 'heroicon-o-link-slash',
                     ])
                     ->visible($items->isEmpty()),
@@ -157,6 +160,6 @@ class MenuPanel extends Component implements HasForms
 
     public function render(): View
     {
-        return view('filament-menu-builder::livewire.panel');
+        return view('filament-translatable-menu-builder::livewire.panel');
     }
 }

@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Datlechin\FilamentMenuBuilder;
+namespace Doriiaan\FilamentTranslatableMenuBuilder;
 
-use Datlechin\FilamentMenuBuilder\Livewire\CreateCustomLink;
-use Datlechin\FilamentMenuBuilder\Livewire\CreateCustomText;
-use Datlechin\FilamentMenuBuilder\Livewire\MenuItems;
-use Datlechin\FilamentMenuBuilder\Livewire\MenuPanel;
+use Doriiaan\FilamentTranslatableMenuBuilder\Livewire\MenuTranslationPanel;
+use Doriiaan\FilamentTranslatableMenuBuilder\Livewire\CreateCustomLink;
+use Doriiaan\FilamentTranslatableMenuBuilder\Livewire\CreateCustomText;
+use Doriiaan\FilamentTranslatableMenuBuilder\Livewire\MenuItems;
+use Doriiaan\FilamentTranslatableMenuBuilder\Livewire\MenuPanel;
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
@@ -16,11 +17,11 @@ use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class FilamentMenuBuilderServiceProvider extends PackageServiceProvider
+class FilamentTranslatableMenuBuilderServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'filament-menu-builder';
+    public static string $name = 'filament-translatable-menu-builder';
 
-    public static string $viewNamespace = 'filament-menu-builder';
+    public static string $viewNamespace = 'filament-translatable-menu-builder';
 
     public function configurePackage(Package $package): void
     {
@@ -31,7 +32,7 @@ class FilamentMenuBuilderServiceProvider extends PackageServiceProvider
                     ->publishConfigFile()
                     ->publishMigrations()
                     ->askToRunMigrations()
-                    ->askToStarRepoOnGitHub('datlechin/filament-menu-builder');
+                    ->askToStarRepoOnGitHub('doriiaan/filament-translatable-menu-builder');
             });
 
         $configFileName = $package->shortName();
@@ -66,18 +67,19 @@ class FilamentMenuBuilderServiceProvider extends PackageServiceProvider
         Livewire::component('menu-builder-panel', MenuPanel::class);
         Livewire::component('create-custom-link', CreateCustomLink::class);
         Livewire::component('create-custom-text', CreateCustomText::class);
+        Livewire::component('menu-translation-panel', MenuTranslationPanel::class);
     }
 
     protected function getAssetPackageName(): ?string
     {
-        return 'datlechin/filament-menu-builder';
+        return 'doriiaan/filament-translatable-menu-builder';
     }
 
     protected function getAssets(): array
     {
         return [
-            AlpineComponent::make('filament-menu-builder', __DIR__ . '/../resources/dist/filament-menu-builder.js'),
-            Css::make('filament-menu-builder-styles', __DIR__ . '/../resources/dist/filament-menu-builder.css'),
+            AlpineComponent::make('filament-translatable-menu-builder', __DIR__ . '/../resources/dist/filament-translatable-menu-builder.js'),
+            Css::make('filament-translatable-menu-builder-styles', __DIR__ . '/../resources/dist/filament-translatable-menu-builder.css'),
         ];
     }
 

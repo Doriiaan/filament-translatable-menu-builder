@@ -13,17 +13,8 @@ return [
         'name' => [
             'label' => 'Name',
         ],
-        'locations' => [
-            'label' => 'Locations',
-            'empty' => 'Unassigned',
-        ],
         'items' => [
             'label' => 'Items',
-        ],
-        'is_visible' => [
-            'label' => 'Visibility',
-            'visible' => 'Visible',
-            'hidden' => 'Hidden',
         ],
     ],
     'actions' => [
@@ -32,23 +23,6 @@ return [
         ],
         'indent' => 'Indent',
         'unindent' => 'Unindent',
-        'locations' => [
-            'label' => 'Locations',
-            'heading' => 'Manage Locations',
-            'description' => 'Choose which menu appears at each location.',
-            'submit' => 'Update',
-            'form' => [
-                'location' => [
-                    'label' => 'Location',
-                ],
-                'menu' => [
-                    'label' => 'Assigned Menu',
-                ],
-            ],
-            'empty' => [
-                'heading' => 'No locations registered',
-            ],
-        ],
     ],
     'items' => [
         'expand' => 'Expand',
@@ -71,9 +45,6 @@ return [
     'notifications' => [
         'created' => [
             'title' => 'Link created',
-        ],
-        'locations' => [
-            'title' => 'Menu locations updated',
         ],
     ],
     'panel' => [

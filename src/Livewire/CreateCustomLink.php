@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Datlechin\FilamentMenuBuilder\Livewire;
+namespace Doriiaan\FilamentTranslatableMenuBuilder\Livewire;
 
-use Datlechin\FilamentMenuBuilder\Enums\LinkTarget;
-use Datlechin\FilamentMenuBuilder\Models\Menu;
+use Doriiaan\FilamentTranslatableMenuBuilder\Enums\LinkTarget;
+use Doriiaan\FilamentTranslatableMenuBuilder\Models\Menu;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -26,14 +26,12 @@ class CreateCustomLink extends Component implements HasForms
 
     public string $url = '';
 
-    public string $target = LinkTarget::Self->value;
 
     public function save(): void
     {
         $this->validate([
             'title' => ['required', 'string'],
             'url' => ['required', 'string'],
-            'target' => ['required', 'string', Rule::in(LinkTarget::cases())],
         ]);
 
         $this->menu
@@ -41,16 +39,15 @@ class CreateCustomLink extends Component implements HasForms
             ->create([
                 'title' => $this->title,
                 'url' => $this->url,
-                'target' => $this->target,
                 'order' => $this->menu->menuItems->max('order') + 1,
             ]);
 
         Notification::make()
-            ->title(__('filament-menu-builder::menu-builder.notifications.created.title'))
+            ->title(__('filament-translatable-menu-builder::menu-builder.notifications.created.title'))
             ->success()
             ->send();
 
-        $this->reset('title', 'url', 'target');
+        $this->reset('title', 'url');
         $this->dispatch('menu:created');
     }
 
@@ -59,20 +56,16 @@ class CreateCustomLink extends Component implements HasForms
         return $form
             ->schema([
                 TextInput::make('title')
-                    ->label(__('filament-menu-builder::menu-builder.form.title'))
+                    ->label(__('filament-translatable-menu-builder::menu-builder.form.title'))
                     ->required(),
                 TextInput::make('url')
-                    ->label(__('filament-menu-builder::menu-builder.form.url'))
+                    ->label(__('filament-translatable-menu-builder::menu-builder.form.url'))
                     ->required(),
-                Select::make('target')
-                    ->label(__('filament-menu-builder::menu-builder.open_in.label'))
-                    ->options(LinkTarget::class)
-                    ->default(LinkTarget::Self),
             ]);
     }
 
     public function render(): View
     {
-        return view('filament-menu-builder::livewire.create-custom-link');
+        return view('filament-translatable-menu-builder::livewire.create-custom-link');
     }
 }

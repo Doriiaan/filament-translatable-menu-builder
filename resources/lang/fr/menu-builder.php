@@ -13,17 +13,8 @@ return [
         'name' => [
             'label' => 'Nom',
         ],
-        'locations' => [
-            'label' => 'Emplacements',
-            'empty' => 'Non assigné',
-        ],
         'items' => [
             'label' => 'Éléments',
-        ],
-        'is_visible' => [
-            'label' => 'Visibilité',
-            'visible' => 'Visible',
-            'hidden' => 'Masqué',
         ],
     ],
     'actions' => [
@@ -32,23 +23,6 @@ return [
         ],
         'indent' => 'Indenté',
         'unindent' => 'Désindenté',
-        'locations' => [
-            'label' => 'Emplacements',
-            'heading' => 'Gérer les emplacements',
-            'description' => 'Choisissez quel menu apparaît à chaque emplacement.',
-            'submit' => 'Mettre à jour',
-            'form' => [
-                'location' => [
-                    'label' => 'Emplacement',
-                ],
-                'menu' => [
-                    'label' => 'Menu assigné',
-                ],
-            ],
-            'empty' => [
-                'heading' => 'Aucun emplacement enregistré',
-            ],
-        ],
     ],
     'items' => [
         'expand' => 'Développer',
@@ -71,9 +45,6 @@ return [
     'notifications' => [
         'created' => [
             'title' => 'Lien créé',
-        ],
-        'locations' => [
-            'title' => 'Emplacements de menu mis à jour',
         ],
     ],
     'panel' => [

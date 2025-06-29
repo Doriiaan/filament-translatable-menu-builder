@@ -55,5 +55,5 @@ const defaultOptions = {
 compile({
     ...defaultOptions,
     entryPoints: ['./resources/js/index.js'],
-    outfile: './resources/dist/filament-menu-builder.js',
+    outfile: './resources/dist/filament-translatable-menu-builder.js',
 })

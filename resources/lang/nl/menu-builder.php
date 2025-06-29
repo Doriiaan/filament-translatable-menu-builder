@@ -13,17 +13,8 @@ return [
         'name' => [
             'label' => 'Naam',
         ],
-        'locations' => [
-            'label' => 'Locaties',
-            'empty' => 'Niet ingesteld',
-        ],
         'items' => [
             'label' => 'Items',
-        ],
-        'is_visible' => [
-            'label' => 'Zichtbaarheid',
-            'visible' => 'Zichtbaar',
-            'hidden' => 'Verborgen',
         ],
     ],
     'actions' => [
@@ -32,23 +23,6 @@ return [
         ],
         'indent' => 'Inspringen',
         'unindent' => 'Uitspringen',
-        'locations' => [
-            'label' => 'Locaties',
-            'heading' => 'Locaties beheren',
-            'description' => 'Stel in welk menu op welke locatie wordt getoond.',
-            'submit' => 'Wijzigingen opslaan',
-            'form' => [
-                'location' => [
-                    'label' => 'Locatie',
-                ],
-                'menu' => [
-                    'label' => 'Gekoppeld menu',
-                ],
-            ],
-            'empty' => [
-                'heading' => 'Geen locaties gevonden',
-            ],
-        ],
     ],
     'items' => [
         'expand' => 'Uitklappen',
@@ -71,9 +45,6 @@ return [
     'notifications' => [
         'created' => [
             'title' => 'Link aangemaakt',
-        ],
-        'locations' => [
-            'title' => 'Menulocaties bijgewerkt',
         ],
     ],
     'panel' => [

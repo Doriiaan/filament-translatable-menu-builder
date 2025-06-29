@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Datlechin\FilamentMenuBuilder\MenuPanel;
+namespace Doriiaan\FilamentTranslatableMenuBuilder\MenuPanel;
 
-use Datlechin\FilamentMenuBuilder\Contracts\MenuPanel;
+use Doriiaan\FilamentTranslatableMenuBuilder\Contracts\MenuPanel;
 
 abstract class AbstractMenuPanel implements MenuPanel
 {

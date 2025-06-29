@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Datlechin\FilamentMenuBuilder\Contracts;
+namespace Doriiaan\FilamentTranslatableMenuBuilder\Contracts;
 
 interface MenuPanel
 {

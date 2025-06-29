@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Datlechin\FilamentMenuBuilder\Enums;
+namespace Doriiaan\FilamentTranslatableMenuBuilder\Enums;
 
 use Filament\Support\Contracts\HasLabel;
 
@@ -19,10 +19,10 @@ enum LinkTarget: string implements HasLabel
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::Self => __('filament-menu-builder::menu-builder.open_in.options.self'),
-            self::Blank => __('filament-menu-builder::menu-builder.open_in.options.blank'),
-            self::Parent => __('filament-menu-builder::menu-builder.open_in.options.parent'),
-            self::Top => __('filament-menu-builder::menu-builder.open_in.options.top'),
+            self::Self => __('filament-translatable-menu-builder::menu-builder.open_in.options.self'),
+            self::Blank => __('filament-translatable-menu-builder::menu-builder.open_in.options.blank'),
+            self::Parent => __('filament-translatable-menu-builder::menu-builder.open_in.options.parent'),
+            self::Top => __('filament-translatable-menu-builder::menu-builder.open_in.options.top'),
         };
     }
 }

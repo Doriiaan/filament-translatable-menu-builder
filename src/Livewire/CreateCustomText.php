@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Datlechin\FilamentMenuBuilder\Livewire;
+namespace Doriiaan\FilamentTranslatableMenuBuilder\Livewire;
 
-use Datlechin\FilamentMenuBuilder\Models\Menu;
+use Doriiaan\FilamentTranslatableMenuBuilder\Models\Menu;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -19,7 +19,15 @@ class CreateCustomText extends Component implements HasForms
 
     public Menu $menu;
 
+    public string $locale;
+
     public string $title = '';
+
+    public function mount(Menu $menu, string $locale): void
+    {
+        $this->menu = $menu;
+        $this->locale = $locale;
+    }
 
     public function save(): void
     {
@@ -28,14 +36,15 @@ class CreateCustomText extends Component implements HasForms
         ]);
 
         $this->menu
+            ->translate($this->locale)
             ->menuItems()
             ->create([
                 'title' => $this->title,
-                'order' => $this->menu->menuItems->max('order') + 1,
+                'order' => $this->menu->translate($this->locale)->menuItems->max('order') + 1,
             ]);
 
         Notification::make()
-            ->title(__('filament-menu-builder::menu-builder.notifications.created.title'))
+            ->title(__('filament-translatable-menu-builder::menu-builder.notifications.created.title'))
             ->success()
             ->send();
 
@@ -48,13 +57,13 @@ class CreateCustomText extends Component implements HasForms
         return $form
             ->schema([
                 TextInput::make('title')
-                    ->label(__('filament-menu-builder::menu-builder.form.title'))
+                    ->label(__('filament-translatable-menu-builder::menu-builder.form.title'))
                     ->required(),
             ]);
     }
 
     public function render(): View
     {
-        return view('filament-menu-builder::livewire.create-custom-text');
+        return view('filament-translatable-menu-builder::livewire.create-custom-text');
     }
 }

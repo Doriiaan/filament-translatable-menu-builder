@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Datlechin\FilamentMenuBuilder\Services;
+namespace Doriiaan\FilamentTranslatableMenuBuilder\Services;
 
-use Datlechin\FilamentMenuBuilder\FilamentMenuBuilderPlugin;
+use Doriiaan\FilamentTranslatableMenuBuilder\FilamentTranslatableMenuBuilderPlugin;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\DB;
 class MenuItemService
 {
     public function __construct(
-        protected FilamentMenuBuilderPlugin $plugin = new FilamentMenuBuilderPlugin,
+        protected FilamentTranslatableMenuBuilderPlugin $plugin = new FilamentTranslatableMenuBuilderPlugin,
     ) {
-        $this->plugin = FilamentMenuBuilderPlugin::get();
+        $this->plugin = FilamentTranslatableMenuBuilderPlugin::get();
     }
 
     public function findById(int $id): ?Model
@@ -53,7 +53,7 @@ class MenuItemService
     public function getPreviousSibling(Model $item): ?Model
     {
         return $this->getModel()::query()
-            ->where('menu_id', $item->menu_id)
+            ->where('menu_translation_id', $item->menu_translation_id)
             ->where('parent_id', $item->parent_id)
             ->where('order', '<', $item->order)
             ->orderByDesc('order')
@@ -65,7 +65,7 @@ class MenuItemService
         $query = $this->getModel()::query()->where('parent_id', $parentId);
 
         if ($menuId) {
-            $query->where('menu_id', $menuId);
+            $query->where('menu_translation_id', $menuId);
         }
 
         return $query->max('order') ?? 0;
@@ -128,7 +128,7 @@ class MenuItemService
             return false;
         }
 
-        $maxOrder = $this->getMaxOrderForParent($parent->parent_id, $item->menu_id);
+        $maxOrder = $this->getMaxOrderForParent($parent->parent_id, $item->_translation_id);
         $oldParentId = $item->parent_id;
 
         $item->update([

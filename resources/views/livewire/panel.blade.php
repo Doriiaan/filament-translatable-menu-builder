@@ -18,7 +18,7 @@
                         wire:click="previousPage"
                         icon="heroicon-m-chevron-left"
                     >
-                        {{ __('filament-menu-builder::menu-builder.panel.pagination.previous') }}
+                        {{ __('filament-translatable-menu-builder::menu-builder.panel.pagination.previous') }}
                     </x-filament::link>
                 @endif
 
@@ -30,7 +30,7 @@
                         icon="heroicon-m-chevron-right"
                         iconPosition="after"
                     >
-                        {{ __('filament-menu-builder::menu-builder.panel.pagination.next') }}
+                        {{ __('filament-translatable-menu-builder::menu-builder.panel.pagination.next') }}
                     </x-filament::link>
                 @endif
             </div>
@@ -39,7 +39,7 @@
         @if ($this->items)
             <x-slot:footerActions>
                 <x-filament::button type="submit">
-                    {{ __('filament-menu-builder::menu-builder.actions.add.label') }}
+                    {{ __('filament-translatable-menu-builder::menu-builder.actions.add.label') }}
                 </x-filament::button>
             </x-slot:footerActions>
         @endif

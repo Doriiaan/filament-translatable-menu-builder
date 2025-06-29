@@ -3,7 +3,7 @@
 ])
 
 @php
-    /** @var \Datlechin\FilamentMenuBuilder\Models\MenuItem $item */
+    /** @var \Doriiaan\FilamentTranslatableMenuBuilder\Models\MenuItem $item */
 
     $hasChildren = $item->children->isNotEmpty();
 @endphp
@@ -23,7 +23,7 @@
                 <x-filament::icon-button
                     icon="heroicon-o-chevron-right"
                     x-on:click="open = !open"
-                    x-bind:title="open ? '{{ trans('filament-menu-builder::menu-builder.items.collapse') }}' : '{{ trans('filament-menu-builder::menu-builder.items.expand') }}'"
+                    x-bind:title="open ? '{{ trans('filament-translatable-menu-builder::menu-builder.items.collapse') }}' : '{{ trans('filament-translatable-menu-builder::menu-builder.items.expand') }}'"
                     color="gray"
                     class="transition duration-200 ease-in-out"
                     x-bind:class="{ 'rotate-90': open }"
@@ -31,7 +31,7 @@
                 />
             @endif
 
-            @if (\Datlechin\FilamentMenuBuilder\FilamentMenuBuilderPlugin::get()->isIndentActionsEnabled())
+            @if (\Doriiaan\FilamentTranslatableMenuBuilder\FilamentTranslatableMenuBuilderPlugin::get()->isIndentActionsEnabled())
                 {{ ($this->unindentAction)(['id' => $item->getKey()]) }}
                 {{ ($this->indentAction)(['id' => $item->getKey()]) }}
             @endif
@@ -61,7 +61,7 @@
         class="mt-2 space-y-2 ms-4"
     >
         @foreach ($item->children as $child)
-            <x-filament-menu-builder::menu-item :item="$child" />
+            <x-filament-translatable-menu-builder::menu-item :item="$child" />
         @endforeach
     </ul>
 </li>
