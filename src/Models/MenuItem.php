@@ -54,24 +54,24 @@ class MenuItem extends Model
         });
     }
 
-    public function menuTranslation(): BelongsTo
+    public function menuTranslation()
     {
         return $this->belongsTo(FilamentTranslatableMenuBuilderPlugin::get()->getMenuTranslationModel());
     }
 
-    public function parent(): BelongsTo
+    public function parent()
     {
         return $this->belongsTo(static::class);
     }
 
-    public function children(): HasMany
+    public function children()
     {
         return $this->hasMany(static::class, 'parent_id')
             ->with('children')
             ->orderBy('order');
     }
 
-    public function linkable(): MorphTo
+    public function linkable()
     {
         return $this->morphTo();
     }
