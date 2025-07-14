@@ -14,7 +14,7 @@
     x-data="{ open: $persist(true).as('menu-item-' + {{ $item->getKey() }}) }"
 >
     <div
-        class="flex justify-between px-3 py-2 bg-white shadow-sm rounded-xl ring-1 ring-gray-950/5 dark:bg-gray-900 dark:ring-white/10"
+        class="flex justify-between px-3 py-4 bg-white shadow-sm rounded-xl ring-1 ring-gray-950/5 dark:bg-gray-900 dark:ring-white/10"
     >
         <div class="flex flex-1 items-center gap-2 truncate">
             {{ $this->reorderAction }}
@@ -58,7 +58,8 @@
         x-show="open"
         wire:key="{{ $item->getKey() }}.children"
         x-data="menuBuilder({ parentId: {{ $item->getKey()  }} })"
-        class="mt-2 space-y-2 ms-4"
+        class="mt-2 space-y-2"
+        style="margin-inline-start: 1.5em;"
     >
         @foreach ($item->children as $child)
             <x-filament-translatable-menu-builder::menu-item :item="$child" />

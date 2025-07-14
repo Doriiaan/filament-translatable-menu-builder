@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Doriiaan\FilamentTranslatableMenuBuilder\Livewire;
 
 use Doriiaan\FilamentTranslatableMenuBuilder\Concerns\ManagesMenuItemHierarchy;
-use Doriiaan\FilamentTranslatableMenuBuilder\Enums\LinkTarget;
 use Doriiaan\FilamentTranslatableMenuBuilder\FilamentTranslatableMenuBuilderPlugin;
 use Doriiaan\FilamentTranslatableMenuBuilder\Models\Menu;
 use Filament\Actions\Action;
@@ -14,7 +13,6 @@ use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Components\Component as FormComponent;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -38,6 +36,8 @@ class MenuItems extends Component implements HasActions, HasForms
 
     public string $locale;
 
+    protected Collection $indexed;
+
     public function mount(Menu $menu, string $locale): void
     {
         $this->menu = $menu;
@@ -48,7 +48,18 @@ class MenuItems extends Component implements HasActions, HasForms
     #[On('menu:created')]
     public function menuItems(): Collection
     {
-        return $this->menu->translate($this->locale)->menuItems;
+        return $this->menu->translate($this->locale)->menuItems()->get()->keyBy('id');
+    }
+
+    public function booted()
+    {
+        $this->indexed = FilamentTranslatableMenuBuilderPlugin::get()
+            ->getMenuItemModel()::query()
+            ->where('menu_translation_id', $this->menu->translate($this->locale)->id)
+            ->with('linkable')
+            ->orderBy('order')
+            ->get()
+            ->keyBy('id');
     }
 
     public function reorder(array $order, ?string $parentId = null): void
@@ -70,7 +81,7 @@ class MenuItems extends Component implements HasActions, HasForms
 
     public function indent(int $itemId): void
     {
-        $item = FilamentTranslatableMenuBuilderPlugin::get()->getMenuItemModel()::query()->find($itemId);
+        $item = $this->indexed->get($itemId);
 
         if (! $item) {
             return;
@@ -101,30 +112,31 @@ class MenuItems extends Component implements HasActions, HasForms
 
     public function unindent(int $itemId): void
     {
-        $item = FilamentTranslatableMenuBuilderPlugin::get()->getMenuItemModel()::query()->find($itemId);
+        $item = $this->indexed->get($itemId);
 
         if (! $item || ! $item->parent_id) {
             return;
         }
 
-        $parent = $item->parent;
-        if (! $parent) {
-            return;
-        }
+        $parent      = $item->parent;
+        $grandParent = $parent->parent;
 
-        $maxOrder = FilamentTranslatableMenuBuilderPlugin::get()->getMenuItemModel()::query()
+        $targetOrder = $parent->order + 1;
+
+        FilamentTranslatableMenuBuilderPlugin::get()->getMenuItemModel()::query()
             ->where('menu_translation_id', $item->menu_translation_id)
-            ->where('parent_id', $parent->parent_id)
-            ->max('order') ?? 0;
-
-        $oldParentId = $item->parent_id;
+            ->where('parent_id', $grandParent?->id)
+            ->where('order', '>=', $targetOrder)
+            ->increment('order');
 
         $item->update([
-            'parent_id' => $parent->parent_id,
-            'order' => $maxOrder + 1,
+            'parent_id' => $grandParent?->id,
+            'order'     => $targetOrder,
         ]);
 
-        $this->reorderSiblings($oldParentId);
+        $this->reorderSiblings($parent->id);
+
+        $this->indexed->put($item->id, $item->fresh());
     }
 
     private function reorderSiblings(?int $parentId): void
@@ -171,27 +183,21 @@ class MenuItems extends Component implements HasActions, HasForms
 
     public function canIndent(int $itemId): bool
     {
-        $item = FilamentTranslatableMenuBuilderPlugin::get()->getMenuItemModel()::query()->find($itemId);
+        $item = $this->indexed->get($itemId);
 
         if (! $item) {
             return false;
         }
 
-        $previousSibling = FilamentTranslatableMenuBuilderPlugin::get()->getMenuItemModel()::query()
-            ->where('menu_translation_id', $item->menu_translation_id)
+        return $this->indexed
             ->where('parent_id', $item->parent_id)
             ->where('order', '<', $item->order)
-            ->orderByDesc('order')
-            ->first();
-
-        return $previousSibling !== null;
+            ->isNotEmpty();
     }
 
     public function canUnindent(int $itemId): bool
     {
-        $item = FilamentTranslatableMenuBuilderPlugin::get()->getMenuItemModel()::query()->find($itemId);
-
-        return $item && $item->parent_id !== null;
+        return ($this->indexed[$itemId]->parent_id ?? null) !== null;
     }
 
     public function editAction(): Action
