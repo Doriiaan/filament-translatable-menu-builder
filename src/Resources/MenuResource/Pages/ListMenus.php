@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Doriiaan\FilamentTranslatableMenuBuilder\Resources\MenuResource\Pages;
 
 use Doriiaan\FilamentTranslatableMenuBuilder\FilamentTranslatableMenuBuilderPlugin;
+use Doriiaan\FilamentTranslatableMenuBuilder\Models\Menu;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
@@ -19,8 +20,8 @@ class ListMenus extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->after(function ($record) {
-                    $record->translateOrNew();
+                ->after(function (Menu $record) {
+                    $record->translateOrNew()->save();
                 }),
         ];
     }
