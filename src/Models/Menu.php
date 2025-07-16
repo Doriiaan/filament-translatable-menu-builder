@@ -21,7 +21,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Menu extends Model implements TranslatableContract
 {
     use Translatable;
-    
+
+    public $timestamps = false;
+
     protected $guarded = [];
 
     public $translatedAttributes = ['created_at', 'updated_at'];
