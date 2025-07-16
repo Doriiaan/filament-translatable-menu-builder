@@ -19,8 +19,8 @@ class ListMenus extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->after(function ($model) {
-                    $model->translateOrNew();
+                ->after(function ($record) {
+                    $record->translateOrNew();
                 }),
         ];
     }
