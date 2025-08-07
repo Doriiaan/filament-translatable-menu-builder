@@ -36,6 +36,10 @@
                 {{ ($this->indentAction)(['id' => $item->getKey()]) }}
             @endif
 
+            <div class="text-sm font-medium leading-6 text-gray-950 font-bold dark:text-white whitespace-nowrap">
+                {{ $item->path }}
+            </div>
+
             <div class="text-sm font-medium leading-6 text-gray-950 dark:text-white whitespace-nowrap">
                 {{ $item->title }}
             </div>

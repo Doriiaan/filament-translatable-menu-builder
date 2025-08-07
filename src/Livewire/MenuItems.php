@@ -48,7 +48,25 @@ class MenuItems extends Component implements HasActions, HasForms
     #[On('menu:created')]
     public function menuItems(): Collection
     {
-        return $this->menu->translate($this->locale)->menuItems()->get()->keyBy('id');
+        $menuItems = $this->menu->translate($this->locale)->menuItems()->get()->keyBy('id');
+        self::addPathToItems($menuItems);
+        return $menuItems;
+    }
+
+    public static function addPathToItems(Collection &$menuItems, ?string $parentPath = null)
+    {
+        $idx = 1;
+        foreach ($menuItems as &$menuItem) {
+            if($parentPath === null) {
+                $menuItem->path = (string) $idx;
+            }
+            else {
+                $menuItem->path = $parentPath . '.' . $idx;
+            }
+
+            self::addPathToItems($menuItem->children, $menuItem->path);
+            $idx++;
+        }
     }
 
     public function booted()
