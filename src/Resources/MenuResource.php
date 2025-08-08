@@ -45,6 +45,8 @@ class MenuResource extends Resource
         return FilamentTranslatableMenuBuilderPlugin::get()->getNavigationCountBadge() ? number_format(static::getModel()::count()) : null;
     }
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     public static function form(Form $form): Form
     {
         return $form
