@@ -6,18 +6,19 @@ namespace Doriiaan\FilamentTranslatableMenuBuilder\Livewire;
 
 use Doriiaan\FilamentTranslatableMenuBuilder\Contracts\MenuPanel as ContractsMenuPanel;
 use Doriiaan\FilamentTranslatableMenuBuilder\Models\Menu;
-use Filament\Forms\Components;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Components;
+use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Schemas\Contracts\HasSchemas;
+use Filament\Schemas\Schema;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
-class MenuPanel extends Component implements HasForms
+class MenuPanel extends Component implements HasSchemas
 {
-    use InteractsWithForms;
+    use InteractsWithSchemas;
 
     public Menu $menu;
 
@@ -46,11 +47,11 @@ class MenuPanel extends Component implements HasForms
     #[Validate('required|array')]
     public array $data = [];
 
-    public function mount(ContractsMenuPanel $menuPanel, $locale): void
+    public function mount(Menu $menu, ContractsMenuPanel $menuPanel, $locale): void
     {
-        $this->locale = $locale;
-        $this->id = $menuPanel->getIdentifier();
+        $this->menu = $menu;
         $this->name = $menuPanel->getName();
+        $this->locale = $locale;
         $this->description = $menuPanel->getDescription();
         $this->icon = $menuPanel->getIcon();
         $this->collapsible = $menuPanel->isCollapsible();
@@ -103,7 +104,7 @@ class MenuPanel extends Component implements HasForms
             ->send();
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $form): Schema
     {
         $items = collect($this->getItems())->mapWithKeys(fn ($item) => [$item['linkable_id'] ?? $item['title'] => $item['title']]);
 
@@ -117,7 +118,7 @@ class MenuPanel extends Component implements HasForms
                     ])
                     ->visible($items->isEmpty()),
 
-                Components\CheckboxList::make('data')
+                CheckboxList::make('data')
                     ->hiddenLabel()
                     ->required()
                     ->bulkToggleable()

@@ -24,13 +24,6 @@ it('has indent actions enabled by default', function () {
     expect($plugin->isIndentActionsEnabled())->toBeTrue();
 });
 
-it('can configure custom link panel', function () {
-    $plugin = FilamentTranslatableMenuBuilderPlugin::make()
-        ->showCustomLinkPanel(false);
-
-    expect($plugin->isShowCustomLinkPanel())->toBeFalse();
-});
-
 it('can configure custom text panel', function () {
     $plugin = FilamentTranslatableMenuBuilderPlugin::make()
         ->showCustomTextPanel(true);

@@ -2,33 +2,36 @@
 
 namespace Doriiaan\FilamentTranslatableMenuBuilder\Livewire;
 
+use Doriiaan\FilamentAstrotomic\Schemas\Components\TranslatableTabs;
+use Doriiaan\FilamentAstrotomic\TranslatableTab;
 use Doriiaan\FilamentTranslatableMenuBuilder\Models\Menu;
-use CactusGalaxy\FilamentAstrotomic\Forms\Components\TranslatableTabs;
-use CactusGalaxy\FilamentAstrotomic\TranslatableTab;
-use Filament\Forms\Components\Actions;
-use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\ViewField;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
+use Filament\Actions\Action;
+use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
+use Filament\Schemas\Components\Actions;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\View as ViewField;
+use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Schemas\Contracts\HasSchemas;
+use Filament\Schemas\Schema;
 use Livewire\Component;
 
-class MenuTranslationPanel extends Component implements HasForms
+class MenuTranslationPanel extends Component implements HasActions, HasSchemas
 {
-    use InteractsWithForms;
+    use InteractsWithActions;
+    use InteractsWithSchemas;
 
     public Menu $record;
 
     public function mount(Menu $record): void
     {
-        $this->record = $record;
+        $this->record = $record->loadMissing('translations');
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 TranslatableTabs::make()
                     ->persistTab()
                     ->localeTabSchema(function (TranslatableTab $tab) {
@@ -40,7 +43,7 @@ class MenuTranslationPanel extends Component implements HasForms
                                 Action::make("create-{$locale}")
                                     ->label(__('Create translation'))
                                     ->color('primary')
-                                    ->hidden(fn () => $this->record->getTranslation($locale, false))
+                                    ->hidden(fn () => $this->record->translations->firstWhere('locale', $locale))
                                     ->requiresConfirmation()
                                     ->action(fn () => $this->createTranslation($locale)),
 
@@ -48,7 +51,7 @@ class MenuTranslationPanel extends Component implements HasForms
                                     ->label(__('Delete translation'))
                                     ->color('danger')
                                     ->extraAttributes(['class' => 'ms-auto'])
-                                    ->visible(fn () => $this->record->getTranslation($locale, false))
+                                    ->visible(fn () => $this->record->translations->firstWhere('locale', $locale))
                                     ->requiresConfirmation()
                                     ->action(fn () => $this->deleteTranslation($locale)),
                             ])
@@ -56,20 +59,20 @@ class MenuTranslationPanel extends Component implements HasForms
                                 ->hidden($locale === app()->getLocale()),
 
                             Grid::make(4)
-                                ->visible(fn () => $this->record->getTranslation($locale, false))
+                                ->visible(fn () => $this->record->translations->firstWhere('locale', $locale))
                                 ->schema([
                                     Grid::make(1)
                                         ->columnSpan(1)
                                         ->schema([
-                                            ViewField::make("section_builder_$locale")
+                                            ViewField::make("section_builder_custom-text_$locale")
                                                 ->view('filament-translatable-menu-builder::menu-component')
                                                 ->viewData([
                                                     'record' => $this->record,
                                                     'locale' => $locale,
-                                                    'component' => 'section',
+                                                    'component' => 'custom-text',
                                                 ]),
 
-                                            ViewField::make("section_builder_$locale")
+                                            ViewField::make("section_builder_model_$locale")
                                                 ->view('filament-translatable-menu-builder::menu-component')
                                                 ->viewData([
                                                     'record' => $this->record,
@@ -81,7 +84,7 @@ class MenuTranslationPanel extends Component implements HasForms
                                     Grid::make(3)
                                         ->columnSpan(3)
                                         ->schema([
-                                            ViewField::make("section_builder_$locale")
+                                            ViewField::make("section_builder_tree_$locale")
                                                 ->columnSpanFull()
                                                 ->view('filament-translatable-menu-builder::menu-component')
                                                 ->viewData([
@@ -105,7 +108,7 @@ class MenuTranslationPanel extends Component implements HasForms
         $this->record->getNewTranslation($locale)->save();
 
         $this->record->refresh();
-        $this->dispatch('$refresh');
+        $this->dispatch('menu-translation:create');
     }
 
     public function deleteTranslation(string $locale): void
@@ -113,7 +116,7 @@ class MenuTranslationPanel extends Component implements HasForms
         $this->record->getTranslation($locale)->delete();
 
         $this->record->refresh();
-        $this->dispatch('$refresh');
+        $this->dispatch('menu-translation:create');
     }
 
     public function render()

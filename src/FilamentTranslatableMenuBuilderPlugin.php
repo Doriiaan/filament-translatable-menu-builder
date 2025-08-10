@@ -9,7 +9,7 @@ use Doriiaan\FilamentTranslatableMenuBuilder\Contracts\MenuPanel;
 use Doriiaan\FilamentTranslatableMenuBuilder\Models\Menu;
 use Doriiaan\FilamentTranslatableMenuBuilder\Models\MenuItem;
 use Doriiaan\FilamentTranslatableMenuBuilder\Models\MenuTranslation;
-use Doriiaan\FilamentTranslatableMenuBuilder\Resources\MenuResource;
+use Doriiaan\FilamentTranslatableMenuBuilder\Resources\Menu\MenuResource;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
@@ -27,17 +27,17 @@ class FilamentTranslatableMenuBuilderPlugin implements Plugin
 
     protected string $menuItemModel = MenuItem::class;
 
-    protected array | Closure $menuFields = [];
+    protected array|Closure $menuFields = [];
 
-    protected array | Closure $menuItemFields = [];
+    protected array|Closure $menuItemFields = [];
 
-    protected string | Closure | null $navigationLabel = null;
+    protected string|Closure|null $navigationLabel = null;
 
-    protected string | Closure | null $navigationGroup = null;
+    protected string|Closure|null $navigationGroup = null;
 
-    protected string | Closure | null $navigationIcon = 'heroicon-o-bars-3';
+    protected string|Closure|null $navigationIcon = 'heroicon-o-bars-3';
 
-    protected int | Closure | null $navigationSort = null;
+    protected int|Closure|null $navigationSort = null;
 
     protected bool $navigationCountBadge = false;
 
@@ -45,8 +45,6 @@ class FilamentTranslatableMenuBuilderPlugin implements Plugin
      * @var MenuPanel[]
      */
     protected array $menuPanels = [];
-
-    protected bool $showCustomLinkPanel = true;
 
     protected bool $showCustomTextPanel = false;
 
@@ -93,7 +91,7 @@ class FilamentTranslatableMenuBuilderPlugin implements Plugin
 
     public function usingMenuTranslationModel(string $model): static
     {
-        $this->menuModel = $model;
+        $this->menuTranslationModel = $model;
 
         return $this;
     }
@@ -124,13 +122,6 @@ class FilamentTranslatableMenuBuilderPlugin implements Plugin
         return $this;
     }
 
-    public function showCustomLinkPanel(bool $show = true): static
-    {
-        $this->showCustomLinkPanel = $show;
-
-        return $this;
-    }
-
     public function showCustomTextPanel(bool $show = true): static
     {
         $this->showCustomTextPanel = $show;
@@ -145,42 +136,42 @@ class FilamentTranslatableMenuBuilderPlugin implements Plugin
         return $this;
     }
 
-    public function addMenuFields(array | Closure $schema): static
+    public function addMenuFields(array|Closure $schema): static
     {
         $this->menuFields = $schema;
 
         return $this;
     }
 
-    public function addMenuItemFields(array | Closure $schema): static
+    public function addMenuItemFields(array|Closure $schema): static
     {
         $this->menuItemFields = $schema;
 
         return $this;
     }
 
-    public function navigationLabel(string | Closure | null $label = null): static
+    public function navigationLabel(string|Closure|null $label = null): static
     {
         $this->navigationLabel = $label;
 
         return $this;
     }
 
-    public function navigationGroup(string | Closure | null $group = null): static
+    public function navigationGroup(string|Closure|null $group = null): static
     {
         $this->navigationGroup = $group;
 
         return $this;
     }
 
-    public function navigationIcon(string | Closure $icon): static
+    public function navigationIcon(string|Closure $icon): static
     {
         $this->navigationIcon = $icon;
 
         return $this;
     }
 
-    public function navigationSort(int | Closure $order): static
+    public function navigationSort(int|Closure $order): static
     {
         $this->navigationSort = $order;
 
@@ -239,11 +230,6 @@ class FilamentTranslatableMenuBuilderPlugin implements Plugin
             ->all();
     }
 
-    public function isShowCustomLinkPanel(): bool
-    {
-        return $this->showCustomLinkPanel;
-    }
-
     public function isShowCustomTextPanel(): bool
     {
         return $this->showCustomTextPanel;
@@ -253,13 +239,13 @@ class FilamentTranslatableMenuBuilderPlugin implements Plugin
     {
         return $this->enableIndentActions;
     }
-    
-    public function getMenuFields(): array | Closure
+
+    public function getMenuFields(): array|Closure
     {
         return $this->menuFields;
     }
 
-    public function getMenuItemFields(): array | Closure
+    public function getMenuItemFields(): array|Closure
     {
         return $this->menuItemFields;
     }

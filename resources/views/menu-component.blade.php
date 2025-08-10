@@ -1,5 +1,5 @@
 <div>
-@if ($component === 'section')
+@if ($component === 'custom-text')
     <livewire:create-custom-text
         :menu="$record"
         :locale="$locale"

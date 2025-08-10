@@ -40,11 +40,11 @@ class MenuItemService
             ->whereIn('id', $order)
             ->update([
                 'order' => DB::raw(
-                    'case ' . collect($order)
+                    'case '.collect($order)
                         ->map(
-                            fn ($recordKey, int $recordIndex): string => 'when id = ' . DB::getPdo()->quote($recordKey) . ' then ' . ($recordIndex + 1),
+                            fn ($recordKey, int $recordIndex): string => 'when id = '.DB::getPdo()->quote($recordKey).' then '.($recordIndex + 1),
                         )
-                        ->implode(' ') . ' end',
+                        ->implode(' ').' end',
                 ),
                 'parent_id' => $parentId,
             ]);

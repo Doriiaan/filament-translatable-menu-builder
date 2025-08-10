@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Doriiaan\FilamentTranslatableMenuBuilder\Resources\MenuResource\Pages;
+namespace Doriiaan\FilamentTranslatableMenuBuilder\Resources\Menu\Pages;
 
 use Doriiaan\FilamentTranslatableMenuBuilder\FilamentTranslatableMenuBuilderPlugin;
 use Filament\Actions;

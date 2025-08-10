@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Doriiaan\FilamentTranslatableMenuBuilder;
 
-use Doriiaan\FilamentTranslatableMenuBuilder\Livewire\MenuTranslationPanel;
 use Doriiaan\FilamentTranslatableMenuBuilder\Livewire\CreateCustomLink;
 use Doriiaan\FilamentTranslatableMenuBuilder\Livewire\CreateCustomText;
 use Doriiaan\FilamentTranslatableMenuBuilder\Livewire\MenuItems;
 use Doriiaan\FilamentTranslatableMenuBuilder\Livewire\MenuPanel;
+use Doriiaan\FilamentTranslatableMenuBuilder\Livewire\MenuTranslationPanel;
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
@@ -78,8 +78,8 @@ class FilamentTranslatableMenuBuilderServiceProvider extends PackageServiceProvi
     protected function getAssets(): array
     {
         return [
-            AlpineComponent::make('filament-translatable-menu-builder', __DIR__ . '/../resources/dist/filament-translatable-menu-builder.js'),
-            Css::make('filament-translatable-menu-builder-styles', __DIR__ . '/../resources/dist/filament-translatable-menu-builder.css'),
+            AlpineComponent::make('filament-translatable-menu-builder', __DIR__.'/../resources/dist/filament-translatable-menu-builder.js'),
+            Css::make('filament-translatable-menu-builder-styles', __DIR__.'/../resources/dist/filament-translatable-menu-builder.css'),
         ];
     }
 

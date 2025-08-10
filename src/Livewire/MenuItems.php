@@ -10,15 +10,13 @@ use Doriiaan\FilamentTranslatableMenuBuilder\Models\Menu;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
-use Filament\Forms\Components\Component as FormComponent;
-use Filament\Forms\Components\Group;
-use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Get;
-use Filament\Support\Enums\ActionSize;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Schemas\Contracts\HasSchemas;
+use Filament\Support\Enums\Size;
+use Filament\Support\Enums\Width;
 use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
@@ -26,10 +24,10 @@ use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class MenuItems extends Component implements HasActions, HasForms
+class MenuItems extends Component implements HasActions, HasSchemas
 {
     use InteractsWithActions;
-    use InteractsWithForms;
+    use InteractsWithSchemas;
     use ManagesMenuItemHierarchy;
 
     public Menu $menu;
@@ -50,18 +48,18 @@ class MenuItems extends Component implements HasActions, HasForms
     {
         $menuItems = $this->menu->translate($this->locale)->menuItems()->get()->keyBy('id');
         self::addPathToItems($menuItems);
+
         return $menuItems;
     }
 
-    public static function addPathToItems(Collection &$menuItems, ?string $parentPath = null)
+    public static function addPathToItems(Collection $menuItems, ?string $parentPath = null)
     {
         $idx = 1;
         foreach ($menuItems as &$menuItem) {
-            if($parentPath === null) {
+            if ($parentPath === null) {
                 $menuItem->path = (string) $idx;
-            }
-            else {
-                $menuItem->path = $parentPath . '.' . $idx;
+            } else {
+                $menuItem->path = $parentPath.'.'.$idx;
             }
 
             self::addPathToItems($menuItem->children, $menuItem->path);
@@ -94,7 +92,7 @@ class MenuItems extends Component implements HasActions, HasForms
             ->iconButton()
             ->extraAttributes(['data-sortable-handle' => true, 'class' => 'cursor-move'])
             ->livewireClickHandlerEnabled(false)
-            ->size(ActionSize::Small);
+            ->size(Size::Small);
     }
 
     public function indent(int $itemId): void
@@ -136,7 +134,7 @@ class MenuItems extends Component implements HasActions, HasForms
             return;
         }
 
-        $parent      = $item->parent;
+        $parent = $item->parent;
         $grandParent = $parent->parent;
 
         $targetOrder = $parent->order + 1;
@@ -149,7 +147,7 @@ class MenuItems extends Component implements HasActions, HasForms
 
         $item->update([
             'parent_id' => $grandParent?->id,
-            'order'     => $targetOrder,
+            'order' => $targetOrder,
         ]);
 
         $this->reorderSiblings($parent->id);
@@ -176,7 +174,7 @@ class MenuItems extends Component implements HasActions, HasForms
             ->icon('heroicon-o-arrow-right')
             ->color('gray')
             ->iconButton()
-            ->size(ActionSize::Small)
+            ->size(Size::Small)
             ->action(fn (array $arguments) => $this->indent($arguments['id']))
             ->visible(
                 fn (array $arguments): bool => FilamentTranslatableMenuBuilderPlugin::get()->isIndentActionsEnabled() &&
@@ -191,7 +189,7 @@ class MenuItems extends Component implements HasActions, HasForms
             ->icon('heroicon-o-arrow-left')
             ->color('gray')
             ->iconButton()
-            ->size(ActionSize::Small)
+            ->size(Size::Small)
             ->action(fn (array $arguments) => $this->unindent($arguments['id']))
             ->visible(
                 fn (array $arguments): bool => FilamentTranslatableMenuBuilderPlugin::get()->isIndentActionsEnabled() &&
@@ -223,13 +221,15 @@ class MenuItems extends Component implements HasActions, HasForms
         return Action::make('edit')
             ->label(__('filament-actions::edit.single.label'))
             ->iconButton()
-            ->size(ActionSize::Small)
+            ->size(Size::Small)
             ->modalHeading(fn (array $arguments): string => __('filament-actions::edit.single.modal.heading', ['label' => $arguments['title']]))
             ->icon('heroicon-m-pencil-square')
             ->fillForm(fn (array $arguments): array => $this->getMenuItemService()->findByIdWithRelations($arguments['id'])->toArray())
-            ->form($this->getEditFormSchema())
+            ->schema($this->getEditFormSchema())
             ->action(fn (array $data, array $arguments) => $this->getMenuItemService()->update($arguments['id'], $data))
-            ->modalWidth(MaxWidth::Medium)
+            ->modalWidth(Width::Medium)
+            ->modal()
+            ->modalAutofocus(false)
             ->slideOver();
     }
 
@@ -241,7 +241,7 @@ class MenuItems extends Component implements HasActions, HasForms
             ->groupedIcon(FilamentIcon::resolve('actions::delete-action.grouped') ?? 'heroicon-m-trash')
             ->icon('heroicon-s-trash')
             ->iconButton()
-            ->size(ActionSize::Small)
+            ->size(Size::Small)
             ->requiresConfirmation()
             ->modalHeading(fn (array $arguments): string => __('filament-actions::delete.single.modal.heading', ['label' => $arguments['title']]))
             ->modalSubmitActionLabel(__('filament-actions::delete.single.modal.actions.delete.label'))
@@ -266,16 +266,16 @@ class MenuItems extends Component implements HasActions, HasForms
                 ->hidden(fn (?string $state, Get $get): bool => blank($state) || filled($get('linkable_type')))
                 ->label(__('filament-translatable-menu-builder::menu-builder.form.url'))
                 ->required(),
-            Placeholder::make('linkable_type')
+            TextInput::make('linkable_type')
                 ->label(__('filament-translatable-menu-builder::menu-builder.form.linkable_type'))
-                ->hidden(fn (?string $state): bool => blank($state))
-                ->content(fn (string $state) => $state),
-            Placeholder::make('linkable_id')
+                ->readOnly()
+                ->hidden(fn (?string $state): bool => blank($state)),
+            TextInput::make('linkable_id')
                 ->label(__('filament-translatable-menu-builder::menu-builder.form.linkable_id'))
                 ->hidden(fn (?string $state): bool => blank($state))
-                ->content(fn (string $state) => $state),
-            Group::make()
-                ->visible(fn (FormComponent $component) => $component->evaluate(FilamentTranslatableMenuBuilderPlugin::get()->getMenuItemFields()) !== [])
+                ->readOnly(),
+            Fieldset::make()
+                ->visible(fn () => FilamentTranslatableMenuBuilderPlugin::get()->getMenuItemFields() !== [])
                 ->schema(FilamentTranslatableMenuBuilderPlugin::get()->getMenuItemFields()),
         ];
     }

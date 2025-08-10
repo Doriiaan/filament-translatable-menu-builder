@@ -5,13 +5,9 @@ declare(strict_types=1);
 namespace Doriiaan\FilamentTranslatableMenuBuilder\Models;
 
 use Doriiaan\FilamentTranslatableMenuBuilder\Contracts\MenuPanelable;
-use Doriiaan\FilamentTranslatableMenuBuilder\Enums\LinkTarget;
 use Doriiaan\FilamentTranslatableMenuBuilder\FilamentTranslatableMenuBuilderPlugin;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * @property int $id

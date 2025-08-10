@@ -1,27 +1,42 @@
 {
     "name": "doriiaan/filament-translatable-menu-builder",
     "description": "Create and manage translatable menus and menu items. Fork of datlechin/filament-menu-builder.",
+    "keywords": [
+        "doriiaan",
+        "laravel",
+        "filamentphp",
+        "filament-translatable-menu-builder"
+    ],
+    "homepage": "https://github.com/Doriiaan/filament-translatable-menu-builder/",
+    "support": {
+        "issues": "https://github.com/Doriiaan/filament-translatable-menu-builder/issues",
+        "source": "https://github.com/Doriiaan/filament-translatable-menu-builder"
+    },
     "license": "MIT",
     "authors": [
         {
-            "name": "Dorian"
+            "name": "Doriiaan",
+            "email": "alary.dorian81@gmail.com",
+            "role": "Developer"
         }
     ],
-    "minimum-stability": "stable",
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "astrotomic/laravel-translatable": "^11.16",
-        "cactus-galaxy/filament-astrotomic": "^0.4.0",
-        "filament/filament": "^3.0",
+        "doriiaan/filament-astrotomic": "^1.0",
+        "filament/filament": "^4.0",
+        "filament/forms": "^4.0",
+        "filament/tables": "^4.0",
         "spatie/laravel-package-tools": "^1.15.0"
     },
     "require-dev": {
-        "laravel/pint": "^1.0",
-        "nunomaduro/collision": "^7.9",
-        "orchestra/testbench": "^8.0",
-        "pestphp/pest": "^2.1",
-        "pestphp/pest-plugin-arch": "^2.0",
-        "pestphp/pest-plugin-laravel": "^2.0"
+        "fakerphp/faker": "^1.23",
+        "laravel/pail": "^1.2.2",
+        "laravel/pint": "^1.13",
+        "laravel/sail": "^1.41",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^8.6",
+        "phpunit/phpunit": "^11.5.3"
     },
     "autoload": {
         "psr-4": {
@@ -40,13 +55,6 @@
         "test-coverage": "vendor/bin/pest --coverage",
         "format": "vendor/bin/pint"
     },
-    "config": {
-        "sort-packages": true,
-        "allow-plugins": {
-            "pestphp/pest-plugin": true,
-            "phpstan/extension-installer": true
-        }
-    },
     "extra": {
         "laravel": {
             "providers": [
@@ -56,5 +64,13 @@
                 "FilamentTranslatableMenuBuilder": "Doriiaan\\FilamentTranslatableMenuBuilder\\Facades\\FilamentTranslatableMenuBuilder"
             }
         }
-    }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "minimum-stability": "stable"
 }
