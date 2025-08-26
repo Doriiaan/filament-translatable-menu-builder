@@ -31,7 +31,6 @@ return [
             'heading' => 'Không có mục nào trong menu này.',
         ],
     ],
-    'custom_link' => 'Liên kết Tùy chỉnh',
     'custom_text' => 'Custom Text',
     'open_in' => [
         'label' => 'Mở trong',

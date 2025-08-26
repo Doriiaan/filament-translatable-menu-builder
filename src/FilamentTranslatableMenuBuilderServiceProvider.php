@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Doriiaan\FilamentTranslatableMenuBuilder;
 
-use Doriiaan\FilamentTranslatableMenuBuilder\Livewire\CreateCustomLink;
 use Doriiaan\FilamentTranslatableMenuBuilder\Livewire\CreateCustomText;
 use Doriiaan\FilamentTranslatableMenuBuilder\Livewire\MenuItems;
 use Doriiaan\FilamentTranslatableMenuBuilder\Livewire\MenuPanel;
@@ -65,7 +64,6 @@ class FilamentTranslatableMenuBuilderServiceProvider extends PackageServiceProvi
 
         Livewire::component('menu-builder-items', MenuItems::class);
         Livewire::component('menu-builder-panel', MenuPanel::class);
-        Livewire::component('create-custom-link', CreateCustomLink::class);
         Livewire::component('create-custom-text', CreateCustomText::class);
         Livewire::component('menu-translation-panel', MenuTranslationPanel::class);
     }

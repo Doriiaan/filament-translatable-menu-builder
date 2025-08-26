@@ -110,7 +110,7 @@ class MenuPanel extends Component implements HasSchemas
 
         return $form
             ->schema([
-                Components\View::make('filament-tables::components.empty-state.index')
+                Components\View::make('filament-translatable-menu-builder::components.empty-state')
                     ->viewData([
                         'heading' => __('filament-translatable-menu-builder::menu-builder.panel.empty.heading'),
                         'description' => __('filament-translatable-menu-builder::menu-builder.panel.empty.description'),

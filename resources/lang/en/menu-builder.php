@@ -31,7 +31,6 @@ return [
             'heading' => 'There are no items in this menu.',
         ],
     ],
-    'custom_link' => 'Custom Link',
     'custom_text' => 'Custom Text',
     'open_in' => [
         'label' => 'Open in',

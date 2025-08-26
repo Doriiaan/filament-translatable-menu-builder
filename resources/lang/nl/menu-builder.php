@@ -31,7 +31,6 @@ return [
             'heading' => 'Dit menu heeft geen items.',
         ],
     ],
-    'custom_link' => 'Aangepaste link',
     'custom_text' => 'Aangepaste tekst',
     'open_in' => [
         'label' => 'Openen op',

@@ -31,7 +31,6 @@ return [
             'heading' => 'Il n’y a aucun élément dans ce menu.',
         ],
     ],
-    'custom_link' => 'Lien personnalisé',
     'custom_text' => 'Custom Text',
     'open_in' => [
         'label' => 'Ouvrir dans',
